@@ -149,7 +149,22 @@
             width: 1200px;
             height: 500px;
         }
+#b1{
+    margin-top: -5px;
+    width: 35px;
+    text-decoration: none;
 
+}
+#a1{
+    text-decoration: none;
+}
+#s2{
+    margin-left: 0px;
+    width: 30px;
+}
+#sub{
+    margin-left: 90px;
+}
     </style>
 </head>
 
@@ -157,11 +172,18 @@
 <div class="container-fluid" id="d1">
     <div class="row-fluid">
         <div class="span12">
-            <blockquote>
-                <p>
-                    用户注册
-                </p>
-            </blockquote>
+            <div class="row-fluid">
+                <div class="span2"  id="s2">
+                    <button class="btn btn-link btn-block" id="b1" type="button" ><a href="UserLogin.jsp" id="a1">返回</a></button>
+                </div>
+                <div class="span10">
+                    <blockquote>
+                        <p>
+                            用户注册
+                        </p>
+                    </blockquote>
+                </div>
+            </div>
             <h3 class="text-center">
                 请填写您的个人信息
             </h3>
@@ -218,5 +240,6 @@
         </div>
     </div>
 </div>
+<%--<input type="button" value="houtui" onclick="window.history.go(-1)">--%>
 </body>
 </html>
