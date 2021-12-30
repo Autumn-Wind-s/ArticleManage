@@ -33,6 +33,7 @@ E:\idea\ArticleManage\src\main\java\com\it\service\AdminService.java
 E:\idea\ArticleManage\src\main\java\com\it\util\MailUtils.java
 E:\idea\ArticleManage\src\main\java\com\it\web\servlet\UserLoginServlet.java
 E:\idea\ArticleManage\src\main\java\com\it\web\servlet\AlterAdminServlet.java
+E:\idea\ArticleManage\src\main\java\com\it\web\servlet\PersonalSelectServlet.java
 E:\idea\ArticleManage\src\main\java\com\it\dao\impl\UserDaoImpl.java
 E:\idea\ArticleManage\src\main\java\com\it\web\servlet\AlterArticleServlet.java
 E:\idea\ArticleManage\src\main\java\com\it\service\UserService.java

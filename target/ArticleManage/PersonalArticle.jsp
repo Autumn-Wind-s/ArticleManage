@@ -108,10 +108,154 @@
 
             })
         }
+        function select(pageType, currentPage, pageSize) {
+            $.ajax({
+                type: "get",
+                url: "PersonalSelectServlet",
+                data: {
+                    "currentPage": currentPage,
+                    "pageSize": pageSize,
+                    "pageType": pageType,
+                },
+                success: function (data) {
+                    $("#totalPage").html(data.totalPage)
+                    $("#totalCount").html(data.totalCount)
+                    var list = "";
+                    var firstPage = '<li> <a href="javascript:select('+pageType+',1,5)">首页</a> </li>'
+                    if( data.currentPage==1){
+                        var pre=1
+                    }
+                    else  pre=currentPage-1
+                    var prePage = '<li> <a href="javascript:select('+pageType+','+pre+',5)">上一页</a> </li>'
+                    list += firstPage
+                    list += prePage
+                    for (var i = 1; i <= data.totalPage; i++) {
+                        // alert(Type)
+                        if(data.currentPage==i){
+                            var li = '<li  ><a  style="background-color: #459d3e" href = "javascript:select('+pageType+','+i+',5)">' + i + '</a></li>'
+
+                        }else {var li = '<li><a href = "javascript:select('+pageType+','+i+',5)">' + i + '</a></li>'
+                        }
+                        list += li;
+                    }
+                    if( data.currentPage==data.totalPage){
+                        var last=data.totalPage
+
+
+                    }
+                    else  last=data.currentPage+1
+                    var lastPage = '<li> <a href="javascript:select('+pageType+','+last+',5)">下一页</a> </li>'
+
+                    var nextPage = '<li> <a href="javascript:select('+pageType+','+data.totalPage+',5)">尾页</a> </li>'
+                    list += lastPage
+                    list += nextPage
+                    $("#list").html(list)
+                    var list2 = "";
+                    for (var j = 0; j < data.list.length; j++) {
+                        var article=data.list[j]
+                        var li2 = ' <tr>\n'+
+                            ' <td> '+ ((currentPage-1)*5+j+1)+' </td>\n '+
+                            '<td>'+ article.articleName+'</td>\n'+
+                            '<td>'+ article.username+ '</td>\n'+
+                            '<td>'+ article.type+ '</td>'+
+                            ' <td>'+
+                            ' <a href="ShowArticleServlet?username='+data.list[j].username+'&articleName='+data.list[j].articleName+'&type='+data.list[j].type+'" style="text-decoration: none">查看</a>'+
+                            '  <a href="GetArticleServlet?username=' + data.list[j].username + '&articleName=' + data.list[j].articleName + '&type=' + data.list[j].type + '" style="text-decoration: none">修改</a>' +
+                            '  <a href="javascript:del(&quot;' + data.list[j].username + '&quot;,&quot;' + data.list[j].articleName + '&quot;,&quot;' + data.list[j].type + '&quot;)" style="text-decoration: none;color: red">删除</a>' +
+                            '  <a href="DownLoadServlet?username=' + data.list[j].username + '&articleName=' + data.list[j].articleName + '&type=' + data.list[j].type + '" style="text-decoration: none">下载</a>' +
+                            '</td>'+
+                            '</tr>';
+                        list2+=li2
+
+                    }
+                    $("#tb").html(list2)
+                }
+
+            })
+        }
 
         $(function () {
-                up(${sessionScope.personalType}, ${sessionScope.personalCurrent}, 5)
+            {if ("${sessionScope.PersonalArticleSelect}"==0){
+                up("${sessionScope.personalType}", "${sessionScope.personalCurrent}", 5)
+            }else {
+                select("${sessionScope.personalType}","${sessionScope.personalCurrent}", 5)
+            }
+                $("#se").click(
+                    function ()
+                    {
+                        {var pageType=$("#in").val();
+                            $.ajax({
+                                type: "get",
+                                    url: "PersonalSelectServlet",
+                                data: {
+                                    "currentPage": 1,
+                                    "pageSize": 5,
+                                    "pageType": $("#in").val(),
+                                },
+                                success: function (data) {
+                                    $("#totalPage").html(data.totalPage)
+                                    $("#totalCount").html(data.totalCount)
+                                    var list = "";
+                                    var firstPage = '<li> <a href="javascript:select('+pageType+',1,5)">首页</a> </li>'
+                                    if( data.currentPage==1){
+                                        var pre=1
+                                    }
+                                    else  pre=currentPage-1
+                                    var prePage = '<li> <a href="javascript:select('+pageType+','+pre+',5)">上一页</a> </li>'
+                                    list += firstPage
+                                    list += prePage
+                                    for (var i = 1; i <= data.totalPage; i++) {
+                                        // alert(Type)
+                                        if(data.currentPage==i){
+                                            var li = '<li  ><a  style="background-color: #459d3e" href = "javascript:select('+pageType+','+i+',5)">' + i + '</a></li>'
 
+                                        }else {var li = '<li><a href = "javascript:select('+pageType+','+i+',5)">' + i + '</a></li>'
+                                        }
+                                        list += li;
+                                    }
+                                    if( data.currentPage==data.totalPage){
+                                        var last=data.totalPage
+
+
+                                    }
+                                    else  last=data.currentPage+1
+                                    var lastPage = '<li> <a href="javascript:select('+pageType+','+last+',5)">下一页</a> </li>'
+
+                                    var nextPage = '<li> <a href="javascript:select('+pageType+','+data.totalPage+',5)">尾页</a> </li>'
+                                    list += lastPage
+                                    list += nextPage
+                                    $("#list").html(list)
+                                    var list2 = "";
+                                    for (var j = 0; j < data.list.length; j++) {
+                                        var article=data.list[j]
+                                        var li2 = ' <tr>\n'+
+                                            ' <td> '+ ((data.currentPage-1)*5+j+1)+' </td>\n '+
+                                            '<td>'+ article.articleName+'</td>\n'+
+                                            '<td>'+ article.username+ '</td>\n'+
+                                            '<td>'+ article.type+ '</td>'+
+                                            ' <td>'+
+                                            ' <a href="ShowArticleServlet?username='+data.list[j].username+'&articleName='+data.list[j].articleName+'&type='+data.list[j].type+'" style="text-decoration: none">查看</a>'+
+                                            '  <a href="GetArticleServlet?username=' + data.list[j].username + '&articleName=' + data.list[j].articleName + '&type=' + data.list[j].type + '" style="text-decoration: none">修改</a>' +
+                                            '  <a href="javascript:del(&quot;' + data.list[j].username + '&quot;,&quot;' + data.list[j].articleName + '&quot;,&quot;' + data.list[j].type + '&quot;)" style="text-decoration: none;color: red">删除</a>' +
+                                            '  <a href="DownLoadServlet?username=' + data.list[j].username + '&articleName=' + data.list[j].articleName + '&type=' + data.list[j].type + '" style="text-decoration: none">下载</a>' +
+                                            '</td>'+
+                                            '</tr>';
+                                        list2+=li2
+
+                                    }
+                                    $("#tb").html(list2)
+                                }
+
+                            })}
+                        // else  return false
+                    }
+
+
+                )
+
+
+
+            }
             }
         )
 
@@ -165,10 +309,10 @@
                                                 <form class="form-search"
                                                       style="margin: 0 0 20px; margin-left: 0;margin-top: 8px;width: 300px;margin-left: 24px;">
                                                     <input class="input-medium search-query" type="text"
-                                                           style="width: 180px"/>
-                                                    <button type="submit" class="btn" style="margin-left: 10px">查找
-                                                    </button>
+                                                           style="width: 180px" id="in"/>
                                                 </form>
+                                                <button type="submit" class="btn" style="margin-left: 220px ;margin-top: -50px"  id="se">查找
+                                                </button>
                                             </div>
                                         </li>
                                     </ul>
