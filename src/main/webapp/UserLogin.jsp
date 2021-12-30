@@ -18,7 +18,7 @@
     <script>
     function CheckUsername() {
         var username =$("#username").val()
-        var reg_usernamoue=/^\w{4,15}$/;
+        var reg_username=/^\w{4,15}$/;
         var flag=reg_username.test(username)
         if(flag){
                 $("#username_li").css("border","")
