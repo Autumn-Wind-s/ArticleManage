@@ -85,9 +85,25 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
+    public int findPersonalVagueCount(String type, String username) {
+        String sql = "select count(*) from user_article where username = ? and articlename like ?";
+
+        int count = template.queryForObject(sql, Integer.class,username, "%" + type + "%");
+    return count;
+    }
+
+    @Override
     public List<Article> findVagueByPage(String type, int start, int pageSize) {
         String sql = "select * from user_article where articlename like  ? limit ?,?";
         return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), "%" + type + "%", start, pageSize);
+
+    }
+
+    @Override
+    public List<Article> findPersonalVagueByPage(String type, int start, int pageSize, String username) {
+        String sql = "select * from user_article where username= ? and articlename like  ? limit ?,?";
+        return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), username,"%" + type + "%", start, pageSize);
+
 
     }
 

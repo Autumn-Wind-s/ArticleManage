@@ -27,6 +27,7 @@ public class UserLoginServlet extends HttpServlet {
             request.getSession().setAttribute("articleCurrent","1");
             request.getSession().setAttribute("articleType","1");
             request.getSession().setAttribute("articleSelect","0");
+            request.getSession().setAttribute("PersonalArticleSelect","0");
             request.getSession().setAttribute("personalCurrent","1");
             request.getSession().setAttribute("personalType","1");
 

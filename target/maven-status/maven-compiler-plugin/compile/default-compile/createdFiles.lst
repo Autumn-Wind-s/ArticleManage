@@ -1,6 +1,7 @@
 com\it\dao\UserDao.class
 com\it\web\servlet\PersonalPaginationServlet.class
 com\it\util\DownLoadUtils.class
+com\it\web\servlet\PersonalSelectServlet.class
 com\it\web\servlet\UpdateStatusServlet.class
 com\it\web\servlet\UserLoginServlet.class
 com\it\web\servlet\AlterUserServlet.class

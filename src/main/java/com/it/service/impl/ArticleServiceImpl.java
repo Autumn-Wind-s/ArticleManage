@@ -96,4 +96,22 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     }
+
+    @Override
+    public PageBean<Article> PersonalSelectPage(int currentPage, int pageSize, String pageType, String username) {
+        PageBean<Article> pb = new PageBean<>();
+        int start = (currentPage - 1) * pageSize;
+        int totalPage;
+        if (articleDao.findPersonalVagueCount(pageType,username) == 0) {
+            totalPage = 0;
+        } else {
+            totalPage = articleDao.findPersonalVagueCount(pageType,username) % pageSize == 0 ? articleDao.findPersonalVagueCount(pageType,username) / pageSize : (articleDao.findPersonalVagueCount(pageType,username) / pageSize) + 1;
+        }
+        pb.setCurrentPage(currentPage);
+        pb.setTotalCount(articleDao.findPersonalVagueCount(pageType,username));
+        pb.setList(articleDao.findPersonalVagueByPage(pageType,start,pageSize,username));
+        pb.setPageSize(pageSize);
+        pb.setTotalPage(totalPage);
+        return pb;
+    }
 }

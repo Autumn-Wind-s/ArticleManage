@@ -11,5 +11,6 @@ public interface ArticleService {
     public boolean deleteArticle(Article article);
     public  boolean uploadArticle(Article article);
     public PageBean<Article> selectPage(int currentPage,int pageSize,String pageType);
+    public PageBean<Article> PersonalSelectPage(int currentPage,int pageSize,String pageType,String username);
 }
 

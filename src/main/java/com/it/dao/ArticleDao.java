@@ -14,5 +14,7 @@ public interface ArticleDao {
     public int deleteArticle(Article article);
     public int insertArticle(Article article);
     public  int findVagueCount(String type);
+    public  int findPersonalVagueCount(String type,String username);
     public  List<Article> findVagueByPage(String type,int start,int pageSize);
+    public  List<Article> findPersonalVagueByPage(String type,int start,int pageSize,String username);
 }

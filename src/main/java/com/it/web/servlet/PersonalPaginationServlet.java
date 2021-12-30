@@ -66,6 +66,7 @@ public class PersonalPaginationServlet extends HttpServlet {
         }
         request.getSession().setAttribute("personalCurrent",currentPageStr);
         request.getSession().setAttribute("personalType",Type);
+        request.getSession().setAttribute("PersonalArticleSelect","0");
         PageBean<Article> articlePageBean = articleService.pageQuery(currentPage, pageSize, pageType,user.getUsername());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(articlePageBean);
