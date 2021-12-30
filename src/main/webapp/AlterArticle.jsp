@@ -18,6 +18,14 @@
             CKEDITOR.replace( 'description');
         };
         $(function () {
+
+            $(function () {
+                    $("#bb").click(function () {
+                        var f=document.referrer;
+                        location.href=f
+                    })
+                }
+            )
             $("#${sessionScope.article.type}").attr("selected",true)
             $("#sub").click(function () {
                     $.ajax({
@@ -50,7 +58,7 @@
     </script>
 </head>
 <body>
-<button class="btn btn-link" type="button" onclick="window.history.back(-1)" style="margin-left: 22px;font-size: 18px"   >返回</button>
+<button class="btn btn-link" type="button" style="margin-left: 22px;font-size: 18px" id="bb"  >返回</button>
 <form method = "get" action = "AlterArticleServlet">
     <p style=" margin-left: 259px;">
         <span style="font-size: 20px">文章名：</span>
@@ -62,7 +70,7 @@
         <select  style="width: 205px" id="select" >
         <option id="议论文">议论文</option>
         <option id="散文" >散文</option>
-        <option id="3">说明文</option>
+        <option id="说明文">说明文</option>
         <option id="记叙文">记叙文</option>
         <option id="小说" >小说</option>
         <option id="诗歌">诗歌</option>

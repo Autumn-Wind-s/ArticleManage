@@ -33,7 +33,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean Enroll(User user) {
         String sql = "insert into user(username,password,email) values(?,?,?)";
-        int update = template.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
+        int update = 0;
+        try {
+            update = template.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
         if (update == 0) {
             return false;
         } else {
@@ -74,14 +79,23 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int findTotalCount() {
         String sql="select count(*)  from user";
-        int i = template.queryForObject(sql, Integer.class);
+        int i = 0;
+        try {
+            i = template.queryForObject(sql, Integer.class);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
         return i;
     }
 
     @Override
     public List<User> findByPage(int start, int pageSize) {
       String sql="select * from user limit ?,?";
-      return template.query(sql,new BeanPropertyRowMapper<User>(User.class),start,pageSize);
+        try {
+            return template.query(sql,new BeanPropertyRowMapper<User>(User.class),start,pageSize);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     @Override

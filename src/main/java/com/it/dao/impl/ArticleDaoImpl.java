@@ -4,6 +4,7 @@ import com.it.dao.ArticleDao;
 import com.it.domain.Article;
 import com.it.util.JdbcUtils;
 import org.junit.Test;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,45 +19,75 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public int findTotalCount(String type) {
         String sql = "select count(*) from user_article where type =? ";
-        int count = template.queryForObject(sql, Integer.class, type);
+        int count = 0;
+        try {
+            count = template.queryForObject(sql, Integer.class, type);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
         return count;
     }
 
     public int findTotalCount(String type, String username) {
         String sql = "select count(*) from user_article where type =? and username= ?";
-        int count = template.queryForObject(sql, Integer.class, type, username);
+        int count = 0;
+        try {
+            count = template.queryForObject(sql, Integer.class, type, username);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
         return count;
     }
 
     @Override
     public List<Article> findByPage(String type, int start, int pageSize) {
         String sql = "select * from user_article where type=? limit ?,?";
-        return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), type, start, pageSize);
+        try {
+            return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), type, start, pageSize);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
 
     public List<Article> findByPage(String type, String username, int start, int pageSize) {
         String sql = "select * from user_article where type=? and username= ? limit ?,?";
-        return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), type, username, start, pageSize);
+        try {
+            return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), type, username, start, pageSize);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     public Article findText(String username, String articleName, String type) {
         String sql = "select * from user_article where username =? and articlename=? and type =?";
-        return template.queryForObject(sql, new BeanPropertyRowMapper<Article>(Article.class), username, articleName, type);
+        try {
+            return template.queryForObject(sql, new BeanPropertyRowMapper<Article>(Article.class), username, articleName, type);
+        } catch (DataAccessException e) {
+            return null;
+        }
 
     }
 
     @Override
     public int alterArticle(Article preArticle, Article lastArticle) {
         String sql = "update user_article set articlename=?,text=?,type=? where articlename=? and text=? and type=?  ";
-        return template.update(sql, lastArticle.getArticleName(), lastArticle.getText(), lastArticle.getType(), preArticle.getArticleName(), preArticle.getText(), preArticle.getType());
+        try {
+            return template.update(sql, lastArticle.getArticleName(), lastArticle.getText(), lastArticle.getType(), preArticle.getArticleName(), preArticle.getText(), preArticle.getType());
+        } catch (DataAccessException e) {
+            return 0;
+        }
 
     }
 
     @Override
     public int deleteArticle(Article article) {
         String sql = "delete from user_article where username=? and articlename= ? and type= ? ";
-        return template.update(sql, article.getUsername(), article.getArticleName(), article.getType());
+        try {
+            return template.update(sql, article.getUsername(), article.getArticleName(), article.getType());
+        } catch (DataAccessException e) {
+            return 0;
+        }
 
     }
 
@@ -79,7 +110,12 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public int findVagueCount(String type) {
         String sql = "select count(*) from user_article where articlename like ?";
-        int count = template.queryForObject(sql, Integer.class, "%" + type + "%");
+        int count ;
+        try {
+            count = template.queryForObject(sql, Integer.class, "%" + type + "%");
+        } catch (DataAccessException e) {
+            count=0;
+        }
 
         return count;
     }
@@ -88,21 +124,34 @@ public class ArticleDaoImpl implements ArticleDao {
     public int findPersonalVagueCount(String type, String username) {
         String sql = "select count(*) from user_article where username = ? and articlename like ?";
 
-        int count = template.queryForObject(sql, Integer.class,username, "%" + type + "%");
-    return count;
+        int count = 0;
+        try {
+            count = template.queryForObject(sql, Integer.class,username, "%" + type + "%");
+        } catch (DataAccessException e) {
+            return 0;
+        }
+        return count;
     }
 
     @Override
     public List<Article> findVagueByPage(String type, int start, int pageSize) {
         String sql = "select * from user_article where articlename like  ? limit ?,?";
-        return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), "%" + type + "%", start, pageSize);
+        try {
+            return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), "%" + type + "%", start, pageSize);
+        } catch (DataAccessException e) {
+            return null;
+        }
 
     }
 
     @Override
     public List<Article> findPersonalVagueByPage(String type, int start, int pageSize, String username) {
         String sql = "select * from user_article where username= ? and articlename like  ? limit ?,?";
-        return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), username,"%" + type + "%", start, pageSize);
+        try {
+            return template.query(sql, new BeanPropertyRowMapper<Article>(Article.class), username,"%" + type + "%", start, pageSize);
+        } catch (DataAccessException e) {
+            return null;
+        }
 
 
     }

@@ -30,6 +30,7 @@
                     success: function (data) {
                         if (data.flag) {
                             alert("删除成功！")
+                            location.reload()
                         } else {
                             alert(data.errorMessage)
                         }
