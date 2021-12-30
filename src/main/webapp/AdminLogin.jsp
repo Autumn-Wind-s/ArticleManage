@@ -13,6 +13,7 @@
     <script>
 $(function () {
     $("#validate-submit").click(function () {
+
         $.ajax({
             type:"get",
             url:"AdminLoginServlet",
